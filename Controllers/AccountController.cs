@@ -2,6 +2,7 @@
 using EMSwebapp.VIewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.DependencyResolver;
 
 namespace EMSwebapp.Controllers
 {
@@ -51,13 +52,55 @@ namespace EMSwebapp.Controllers
                 {
                     //LOG IN THE USER AUTOMATICALLY
                    await _signInManager.SignInAsync(userModel, isPersistent: false);
-                   return RedirectToAction("Home", "Index");
+                   return RedirectToAction("Index", "Home");
                 }
+
+                foreach(var error in result.Errors) 
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
             }
 
             return View(userViewModel);
         }
 
+        [HttpGet]
+        public IActionResult LogIn()
+        {
+            return View();
+        }
 
-    }
+        [HttpPost]
+        public async Task<IActionResult> LogIn(LogInUserViewModel userViewModel)
+        {
+            if(ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(userViewModel.UserName, userViewModel.Password, userViewModel.RememberMe, false);
+                //COOKIE WILL BE CREATED and TRANSFER TO THE CLIENT
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ModelState.AddModelError(string.Empty, "Invalid LogIn Credentials");
+
+            }
+
+            return View(userViewModel);
+        }
+
+        [HttpGet]
+        public async Task <IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("LogIn");
+        }
+
+
+
+
+
+
+        }
 }

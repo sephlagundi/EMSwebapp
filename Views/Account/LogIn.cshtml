@@ -1,0 +1,36 @@
+﻿@model LogInUserViewModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<h1>LogIn User</h1>
+
+<form asp-controller="Account" asp-action="LogIn" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+
+    <div>
+        <label asp-for="UserName"></label>
+        <input asp-for="UserName" />
+        <span asp-validation-for="UserName"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <label asp-for="RememberMe"></label>
+        <input asp-for="RememberMe"/>
+        <!-- <span asp-validation-for="RememberMe"></span> -->
+    </div>
+
+
+    <button type="submit">LogIn</button>
+
+
+</form>
