@@ -17,12 +17,15 @@ namespace EMSwebapp.Controllers
 
         //LOG IN USER DETAILS
         public SignInManager<ApplicationUser> _signInManager { get; }
+        public RoleManager<IdentityRole> _roleManager { get; }
 
         public AccountController(UserManager<ApplicationUser> userManager, 
-                                  SignInManager<ApplicationUser> signInManager) 
+                                  SignInManager<ApplicationUser> signInManager,
+                                    RoleManager<IdentityRole> roleManager) 
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
 
@@ -50,6 +53,21 @@ namespace EMSwebapp.Controllers
                var result = await _userManager.CreateAsync(userModel, userViewModel.Password);
                 if (result.Succeeded)
                 {
+                    //ADD ROLES AND ALLOW THEM TO LOGIN
+                    // ASSIGN DEFAULT ROLE 
+                    var role = _roleManager.Roles.FirstOrDefault(r => r.Name == "User");
+                    if (role != null)
+                    {
+                        var roleResult = await _userManager.AddToRoleAsync(userModel, role.Name);
+
+                        if (!roleResult.Succeeded)
+                        {
+                            ModelState.AddModelError(String.Empty, "Role cannot be assigned");
+                        }
+                    }
+
+
+
                     //LOG IN THE USER AUTOMATICALLY
                    await _signInManager.SignInAsync(userModel, isPersistent: false);
                    return RedirectToAction("Index", "Home");

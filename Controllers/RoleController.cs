@@ -40,7 +40,7 @@ namespace EMSwebapp.Controllers
                 var result = await _roleManager.CreateAsync(role);
                 if (result.Succeeded)
                 {
-                    RedirectToAction("Index", "Home");
+                    RedirectToAction("GetAllRoles");
                 }
 
                 foreach (var error in result.Errors)
@@ -64,8 +64,8 @@ namespace EMSwebapp.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(string roleId)
         {
-            var oldTodo = await _roleManager.FindByIdAsync(roleId);
-            return View(oldTodo);
+            var oldRole = await _roleManager.FindByIdAsync(roleId);
+            return View(oldRole);
         }
         [HttpPost]
         public async Task<IActionResult> Update(RoleViewModel role)
