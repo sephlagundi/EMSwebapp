@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EMSwebapp.Controllers
 {
-    //[Authorize]
+    // [Authorize(Roles = "Administrator, User" )]
+    // [AllowAnonymous]
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;

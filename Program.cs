@@ -42,7 +42,8 @@ app.UseRouting();
 //enables identity EF for LOG IN, REGISTER
 app.UseAuthentication();
 
-app.UseAuthorization();
+app.UseAuthorization(); // process roles and claim
+//has inbuilt object of identity framwork [Principal] - who is the user and what is his role and claims. it will be automatically populated
 
 app.MapControllerRoute(
     name: "default",
