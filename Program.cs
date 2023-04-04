@@ -42,7 +42,7 @@ app.UseRouting();
 //enables identity EF for LOG IN, REGISTER
 app.UseAuthentication();
 
-// app.UseAuthorization();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

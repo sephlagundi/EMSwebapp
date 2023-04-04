@@ -76,6 +76,7 @@ namespace EMSwebapp.Controllers
         {
             if(ModelState.IsValid)
             {
+                //LOGIN ACTIVITY -> COOKIE [Roles and Claims]
                 var result = await _signInManager.PasswordSignInAsync(userViewModel.UserName, userViewModel.Password, userViewModel.RememberMe, false);
                 //COOKIE WILL BE CREATED and TRANSFER TO THE CLIENT
                 if (result.Succeeded)
